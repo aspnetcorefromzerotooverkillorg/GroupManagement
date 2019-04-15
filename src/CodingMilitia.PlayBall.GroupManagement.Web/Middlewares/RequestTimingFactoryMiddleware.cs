@@ -1,0 +1,33 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace CodingMilitia.PlayBall.GroupManagement.Web.Middlewares
+{
+    public class RequestTimingFactoryMiddleware : IMiddleware
+    {
+        private readonly ILogger<RequestTimingFactoryMiddleware> _logger;
+        private int _requestCounter;
+
+        public RequestTimingFactoryMiddleware(ILogger<RequestTimingFactoryMiddleware> logger)
+        {
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        {
+            var watch = Stopwatch.StartNew();
+            await next(context);
+            watch.Stop();
+
+            Interlocked.Increment(ref _requestCounter);
+            //log
+            _logger.LogInformation($"\n request# {_requestCounter} took {watch.ElapsedMilliseconds}ms");
+        }
+    }
+}

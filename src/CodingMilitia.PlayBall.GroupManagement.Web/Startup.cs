@@ -11,6 +11,7 @@ using CodingMilitia.PlayBall.GroupManagement.Business.Imp.Services;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CodingMilitia.PlayBall.GroupManagement.Web.IoC;
+using CodingMilitia.PlayBall.GroupManagement.Web.Middlewares;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web
 {
@@ -21,6 +22,8 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddTransient<RequestTimingFactoryMiddleware>();
 
             // Add Autofac
             var containerBuilder = new ContainerBuilder();
@@ -41,11 +44,28 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            app.UseMiddleware<RequestTimingAdHocMiddleware>();
+            app.UseMiddleware<RequestTimingFactoryMiddleware>();
+
+            // branch the request pipeline with Map
+            app.Map("/ping", builder => {
+                builder.Run(async (context) => await context.Response.WriteAsync("pong from Map"));
+            });
+
+            // branch request pipeline with MapWhen
+            app.MapWhen(
+                context => context.Request.Headers.ContainsKey("ping"),
+                builder => {
+                    builder.Run(async (context) => await context.Response.WriteAsync("pong from MapWhen"));
+                });
+
             app.UseMvc();
-            // app.Run(async (context) =>
-            // {
-            //     await context.Response.WriteAsync("Hello World!");
-            // });
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync(".. no middlware could handle the request ..");
+            });
         }
     }
 }
