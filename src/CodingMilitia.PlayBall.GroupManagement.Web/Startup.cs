@@ -12,6 +12,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CodingMilitia.PlayBall.GroupManagement.Web.IoC;
 using CodingMilitia.PlayBall.GroupManagement.Web.Middlewares;
+using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web
 {
@@ -21,9 +22,18 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            //services.AddMvc();
+
+            // register filter
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<DemoActionFilter>();
+            });
 
             services.AddTransient<RequestTimingFactoryMiddleware>();
+
+            // register exception filter
+            services.AddSingleton<DemoExceptionFilter>();
 
             // Add Autofac
             var containerBuilder = new ContainerBuilder();

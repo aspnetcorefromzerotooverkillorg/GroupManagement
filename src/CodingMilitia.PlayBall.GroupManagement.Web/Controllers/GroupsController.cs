@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CodingMilitia.PlayBall.GroupManagement.Business.Services;
 using CodingMilitia.PlayBall.GroupManagement.Web.Mappings;
+using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
+using System;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 {
+    [ServiceFilter(typeof(DemoExceptionFilter))]
     [Route("groups")]
     public class GroupsController: Controller
     {
@@ -42,6 +45,8 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(long id, GroupViewModel model)
         {
+            throw new ArgumentException("from Edit");
+
             var group = _groupService.Update(model.ToServiceModel());
             if(group==null)
             {
@@ -61,6 +66,7 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 
         [HttpPost]
         [Route("create")]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(GroupViewModel model)
         {
             _groupService.Add(model.ToServiceModel());
