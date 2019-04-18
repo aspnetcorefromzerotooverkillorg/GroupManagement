@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using CodingMilitia.PlayBall.GroupManagement.Business.Imp.Services;
@@ -34,28 +35,28 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.IoC
                 _logger = logger;
             }
 
-            public Group Add(Group group)
+            public Task<Group> AddAsync(Group group, CancellationToken ct)
             {
-                _logger.LogWarning($"### hello from {nameof(Add)} ###");
-                return _inner.Add(group);
+                _logger.LogWarning($"### hello from {nameof(AddAsync)} ###");
+                return _inner.AddAsync(group, ct);
             }
 
-            public IReadOnlyCollection<Group> GetAll()
+            public Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken ct)
             {
-                _logger.LogTrace($"### hello from {nameof(GetAll)} ###");
-                return _inner.GetAll();
+                _logger.LogTrace($"### hello from {nameof(GetAllAsync)} ###");
+                return _inner.GetAllAsync(ct);
             }
 
-            public Group GetById(long id)
+            public Task<Group> GetByIdAsync(long id, CancellationToken ct)
             {
-                _logger.LogWarning($"### hello from {nameof(GetById)} ###");
-                return _inner.GetById(id);
+                _logger.LogWarning($"### hello from {nameof(GetByIdAsync)} ###");
+                return _inner.GetByIdAsync(id, ct);
             }
 
-            public Group Update(Group group)
+            public Task<Group> UpdateAsync(Group group, CancellationToken ct)
             {
-                _logger.LogWarning($"### hello from {nameof(Update)} ###");
-                return _inner.Update(group);
+                _logger.LogWarning($"### hello from {nameof(UpdateAsync)} ###");
+                return _inner.UpdateAsync(group, ct);
             }
         }
     }

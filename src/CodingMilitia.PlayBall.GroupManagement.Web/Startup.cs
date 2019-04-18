@@ -22,13 +22,13 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc();
+            services.AddMvc();
 
             // register filter
-            services.AddMvc(options =>
-            {
-                options.Filters.Add<DemoActionFilter>();
-            });
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add<DemoActionFilter>();
+            //});
 
             services.AddTransient<RequestTimingFactoryMiddleware>();
 

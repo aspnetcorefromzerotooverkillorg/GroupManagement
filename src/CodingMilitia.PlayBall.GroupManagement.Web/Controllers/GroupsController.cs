@@ -6,6 +6,8 @@ using CodingMilitia.PlayBall.GroupManagement.Business.Services;
 using CodingMilitia.PlayBall.GroupManagement.Web.Mappings;
 using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
 using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 {
@@ -23,16 +25,17 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken ct)
         {
-            return View(_groupService.GetAll().ToViewModel());
+            var result = await _groupService.GetAllAsync(ct);
+            return View(result.ToViewModel());
         }
 
         [HttpGet]
         [Route("id")]
-        public IActionResult Details(long id)
+        public async Task<IActionResult> Details(long id, CancellationToken ct)
         {
-            var group = _groupService.GetById(id);
+            var group = await _groupService.GetByIdAsync(id, ct);
             if(group==null)
             {
                 return NotFound();
@@ -43,11 +46,9 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(long id, GroupViewModel model)
+        public async Task<IActionResult> Edit(long id, GroupViewModel model, CancellationToken ct)
         {
-            throw new ArgumentException("from Edit");
-
-            var group = _groupService.Update(model.ToServiceModel());
+            var group = await _groupService.UpdateAsync(model.ToServiceModel(), ct);
             if(group==null)
             {
                 return NotFound();
@@ -67,9 +68,9 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
         [HttpPost]
         [Route("create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(GroupViewModel model)
+        public async Task<IActionResult> Create(GroupViewModel model, CancellationToken ct)
         {
-            _groupService.Add(model.ToServiceModel());
+            await _groupService.AddAsync(model.ToServiceModel(), ct);
             return RedirectToAction("Index");
         }
     }
