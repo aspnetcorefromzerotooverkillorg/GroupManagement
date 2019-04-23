@@ -11,7 +11,6 @@ using System.Threading;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 {
-    [ServiceFilter(typeof(DemoExceptionFilter))]
     [Route("groups")]
     public class GroupsController: Controller
     {
@@ -54,7 +53,7 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
                 return NotFound();
             }
 
-            group.Name = model.Name;
+            //group.Name = model.Name;
             return RedirectToAction("Index");
         }
 

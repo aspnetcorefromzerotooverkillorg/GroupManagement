@@ -7,9 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AC9A0858-494
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingMilitia.PlayBall.GroupManagement.Web", "src\CodingMilitia.PlayBall.GroupManagement.Web\CodingMilitia.PlayBall.GroupManagement.Web.csproj", "{3BFBE9A2-75BE-4960-83DD-D880211A6B60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingMilitia.PlayBall.GroupManagement.Business", "src\CodingMilitia.PlayBall.GroupManagement.Business\CodingMilitia.PlayBall.GroupManagement.Business.csproj", "{0DC60793-DDAE-4AE6-94F7-B8CF65116441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingMilitia.PlayBall.GroupManagement.Business", "src\CodingMilitia.PlayBall.GroupManagement.Business\CodingMilitia.PlayBall.GroupManagement.Business.csproj", "{0DC60793-DDAE-4AE6-94F7-B8CF65116441}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingMilitia.PlayBall.GroupManagement.Business.Imp", "src\CodingMilitia.PlayBall.GroupManagement.Business.Imp\CodingMilitia.PlayBall.GroupManagement.Business.Imp.csproj", "{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingMilitia.PlayBall.GroupManagement.Business.Imp", "src\CodingMilitia.PlayBall.GroupManagement.Business.Imp\CodingMilitia.PlayBall.GroupManagement.Business.Imp.csproj", "{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingMilitia.PlayBall.GroupManagement.Data", "src\CodingMilitia.PlayBall.GroupManagement.Data\CodingMilitia.PlayBall.GroupManagement.Data.csproj", "{E212209C-C921-48F3-8C20-08964C7C1432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,18 @@ Global
 		{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76}.Release|x64.Build.0 = Release|Any CPU
 		{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76}.Release|x86.Build.0 = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|x64.Build.0 = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Debug|x86.Build.0 = Debug|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|x64.ActiveCfg = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|x64.Build.0 = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|x86.ActiveCfg = Release|Any CPU
+		{E212209C-C921-48F3-8C20-08964C7C1432}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +79,7 @@ Global
 		{3BFBE9A2-75BE-4960-83DD-D880211A6B60} = {AC9A0858-494C-46B7-B7A1-308C083B673F}
 		{0DC60793-DDAE-4AE6-94F7-B8CF65116441} = {AC9A0858-494C-46B7-B7A1-308C083B673F}
 		{D4A44E1A-9BD9-4D33-AFDD-A05ED99BED76} = {AC9A0858-494C-46B7-B7A1-308C083B673F}
+		{E212209C-C921-48F3-8C20-08964C7C1432} = {AC9A0858-494C-46B7-B7A1-308C083B673F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C82B285A-37AF-4FEF-9154-F56B756AAC70}

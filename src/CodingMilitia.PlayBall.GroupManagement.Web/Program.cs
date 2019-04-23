@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CodingMilitia.PlayBall.GroupManagement.Web.StartupHelpers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,42 +17,15 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            ConfigureNLog();
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+            await host.EnsureDbUptoDate();
+            host.Run();
         }
-
-        // TODO: replace with nlog.config
-        private static void ConfigureNLog()
-        {
-            var config = new LoggingConfiguration();
-
-            var consoleTarget = new ColoredConsoleTarget("coloredConsole")
-            {
-                Layout = @"${date: format=HH\:mm\:ss} ${logger} ${level} ${message} ${exception}"
-            };
-            config.AddTarget(consoleTarget);
-            //var fileTarget = new FileTarget("file")
-            //{
-            //    FileName = @"${basedir}\file.log",
-            //    Layout = @"${date: format=HH\:mm\:ss} ${level} ${message} ${exception} ${ndlc}"
-            //};
-            //config.AddTarget(fileTarget);
-            config.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Info, consoleTarget, "CodingMilitia.*");
-            config.AddRule(NLog.LogLevel.Warn, NLog.LogLevel.Fatal, consoleTarget);
-            //config.AddRule(NLog.LogLevel.Warn, NLog.LogLevel.Fatal, fileTarget);
-
-            LogManager.Configuration = config;
-        }
-
+                
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging(builder => {
-                    builder.ClearProviders(); // clear default logging providers
-                    builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-                .UseNLog() // use NLog logging
                 .UseStartup<Startup>();
     }
 }

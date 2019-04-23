@@ -13,27 +13,31 @@ using Autofac.Extensions.DependencyInjection;
 using CodingMilitia.PlayBall.GroupManagement.Web.IoC;
 using CodingMilitia.PlayBall.GroupManagement.Web.Middlewares;
 using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
+using CodingMilitia.PlayBall.GroupManagement.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web
 {
     public class Startup
     {
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
 
-            // register filter
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add<DemoActionFilter>();
-            //});
-
-            services.AddTransient<RequestTimingFactoryMiddleware>();
-
-            // register exception filter
-            services.AddSingleton<DemoExceptionFilter>();
+            services.AddDbContext<GroupManagementDbContext>(options => {
+                options.UseSqlServer(_config.GetConnectionString("GroupManagementDbContext"));
+                options.EnableSensitiveDataLogging();
+            });
 
             // Add Autofac
             var containerBuilder = new ContainerBuilder();
@@ -55,21 +59,7 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
             }
 
             app.UseStaticFiles();
-            app.UseMiddleware<RequestTimingAdHocMiddleware>();
-            app.UseMiddleware<RequestTimingFactoryMiddleware>();
-
-            // branch the request pipeline with Map
-            app.Map("/ping", builder => {
-                builder.Run(async (context) => await context.Response.WriteAsync("pong from Map"));
-            });
-
-            // branch request pipeline with MapWhen
-            app.MapWhen(
-                context => context.Request.Headers.ContainsKey("ping"),
-                builder => {
-                    builder.Run(async (context) => await context.Response.WriteAsync("pong from MapWhen"));
-                });
-
+            
             app.UseMvc();
 
             app.Run(async (context) =>

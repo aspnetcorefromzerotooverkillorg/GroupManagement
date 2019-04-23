@@ -15,12 +15,13 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<InMemoryGroupsService>()
+            //builder.RegisterType<InMemoryGroupsService>()
+            builder.RegisterType<GroupsService>()
                 .Named<IGroupService>("groupsService")
                 .SingleInstance();
 
-            builder.RegisterDecorator<IGroupService>((context, service) => 
-                new GroupServiceDecorator(service, context.Resolve<ILogger<GroupServiceDecorator>>()), 
+            builder.RegisterDecorator<IGroupService>((context, service) =>
+                new GroupServiceDecorator(service, context.Resolve<ILogger<GroupServiceDecorator>>()),
                 "groupsService");
         }
 
