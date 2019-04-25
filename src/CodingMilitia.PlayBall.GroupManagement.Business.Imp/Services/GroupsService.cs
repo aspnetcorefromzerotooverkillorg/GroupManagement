@@ -35,17 +35,27 @@ namespace CodingMilitia.PlayBall.GroupManagement.Business.Imp.Services
 
         public async Task<Group> GetByIdAsync(long id, CancellationToken ct)
         {
-            var group = await _context.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.Id == id, ct);
+            var group = await _context.Groups
+                                .AsNoTracking()
+                                .SingleOrDefaultAsync(g => g.Id == id, ct);
             return group.ToService();
         }
 
         public async Task<Group> UpdateAsync(Group group, CancellationToken ct)
         {
-            var existingGroup = await _context.Groups.SingleOrDefaultAsync(g => g.Id == group.Id);
+            var existingGroup = await _context.Groups
+                                        .AsNoTracking()
+                                        .SingleOrDefaultAsync(g => g.Id == group.Id);
             existingGroup.Name = group.Name;
-            await Task.Delay(TimeSpan.FromSeconds(5));
             await _context.SaveChangesAsync(ct);
             return existingGroup.ToService();
+        }
+
+        public async Task RemoveAsync(long id, CancellationToken ct)
+        {
+            var entityToRemove = await _context.Groups.SingleOrDefaultAsync(g => g.Id == id);
+            _context.Groups.Remove(entityToRemove);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

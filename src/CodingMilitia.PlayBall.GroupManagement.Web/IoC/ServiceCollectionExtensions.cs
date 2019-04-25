@@ -1,5 +1,7 @@
 ﻿using CodingMilitia.PlayBall.GroupManagement.Business.Imp.Services;
 using CodingMilitia.PlayBall.GroupManagement.Business.Services;
+using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,6 +13,17 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddRequiredMvcComponents(this IServiceCollection services)
+        {
+            services.AddTransient<ApiExceptionFilter>();
+
+            var mvcbuilder = services.AddMvcCore(options => {
+                                    options.Filters.AddService<ApiExceptionFilter>();
+                                }).AddJsonFormatters()
+                                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            return services;
+        }
+
         public static IServiceCollection AddBusiness(this IServiceCollection services)
         {
             // dependency injection

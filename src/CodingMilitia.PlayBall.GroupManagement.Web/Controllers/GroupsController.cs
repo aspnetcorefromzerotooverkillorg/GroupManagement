@@ -11,10 +11,10 @@ using System.Threading;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 {
+    [ApiController]
     [Route("groups")]
-    public class GroupsController: Controller
+    public class GroupsController : ControllerBase
     {
-
         private readonly IGroupService _groupService;
 
         public GroupsController(IGroupService groupService)
@@ -24,53 +24,49 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> Index(CancellationToken ct)
+        public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
             var result = await _groupService.GetAllAsync(ct);
-            return View(result.ToViewModel());
+            return Ok(result.ToModel());
         }
 
         [HttpGet]
         [Route("id")]
-        public async Task<IActionResult> Details(long id, CancellationToken ct)
+        public async Task<IActionResult> GetByIdAsync(long id, CancellationToken ct)
         {
             var group = await _groupService.GetByIdAsync(id, ct);
-            if(group==null)
+            if (group == null)
             {
                 return NotFound();
             }
-            return View(group.ToViewModel());
+            return Ok(group.ToModel());
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, GroupViewModel model, CancellationToken ct)
+        public async Task<IActionResult> UpdateAsync(long id, GroupModel model, CancellationToken ct)
         {
+            model.Id = id;
             var group = await _groupService.UpdateAsync(model.ToServiceModel(), ct);
-            if(group==null)
-            {
-                return NotFound();
-            }
 
-            //group.Name = model.Name;
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        [Route("create")]
-        public IActionResult Create()
-        {
-            return View();
+            return Ok(group.ToModel());
         }
 
         [HttpPost]
-        [Route("create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GroupViewModel model, CancellationToken ct)
+        [HttpPut]
+        [Route("")]
+        public async Task<IActionResult> AddAsync(GroupModel model, CancellationToken ct)
         {
-            await _groupService.AddAsync(model.ToServiceModel(), ct);
-            return RedirectToAction("Index");
+            var group = await _groupService.AddAsync(model.ToServiceModel(), ct);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = group.Id }, group);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> RemoveAsync(long id, CancellationToken ct)
+        {
+            await _groupService.RemoveAsync(id, ct);
+            return NoContent();
         }
     }
 }

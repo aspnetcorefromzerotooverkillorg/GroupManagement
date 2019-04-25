@@ -36,28 +36,34 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web.IoC
                 _logger = logger;
             }
 
-            public Task<Group> AddAsync(Group group, CancellationToken ct)
+            public async Task<Group> AddAsync(Group group, CancellationToken ct)
             {
                 _logger.LogWarning($"### hello from {nameof(AddAsync)} ###");
-                return _inner.AddAsync(group, ct);
+                return await _inner.AddAsync(group, ct);
             }
 
-            public Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken ct)
+            public async Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken ct)
             {
                 _logger.LogTrace($"### hello from {nameof(GetAllAsync)} ###");
-                return _inner.GetAllAsync(ct);
+                return await _inner.GetAllAsync(ct);
             }
 
-            public Task<Group> GetByIdAsync(long id, CancellationToken ct)
+            public async Task<Group> GetByIdAsync(long id, CancellationToken ct)
             {
                 _logger.LogWarning($"### hello from {nameof(GetByIdAsync)} ###");
-                return _inner.GetByIdAsync(id, ct);
+                return await _inner.GetByIdAsync(id, ct);
             }
 
-            public Task<Group> UpdateAsync(Group group, CancellationToken ct)
+            public async Task<Group> UpdateAsync(Group group, CancellationToken ct)
             {
                 _logger.LogWarning($"### hello from {nameof(UpdateAsync)} ###");
-                return _inner.UpdateAsync(group, ct);
+                return await _inner.UpdateAsync(group, ct);
+            }
+
+            public async Task RemoveAsync(long id, CancellationToken ct)
+            {
+                _logger.LogWarning($"### hello from {nameof(RemoveAsync)} ###");
+                await _inner.RemoveAsync(id, ct);
             }
         }
     }

@@ -16,6 +16,7 @@ using CodingMilitia.PlayBall.GroupManagement.Web.Filters;
 using CodingMilitia.PlayBall.GroupManagement.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CodingMilitia.PlayBall.GroupManagement.Web
 {
@@ -32,7 +33,7 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddRequiredMvcComponents();
 
             services.AddDbContext<GroupManagementDbContext>(options => {
                 options.UseSqlServer(_config.GetConnectionString("GroupManagementDbContext"));
@@ -58,7 +59,7 @@ namespace CodingMilitia.PlayBall.GroupManagement.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             
             app.UseMvc();
 
